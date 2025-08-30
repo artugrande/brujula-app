@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { TrendingUp, Wallet, Send, Trophy, Medal, Award } from "lucide-react"
 import { getAllUsers, donate } from "@/lib/brujulaClient"
 import { SuccessModal } from "./success-modal"
+import { useLanguage } from "@/hooks/use-language"
 
 interface RankingsModalProps {
   isOpen: boolean
@@ -33,6 +34,7 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
   const [donationAmount, setDonationAmount] = useState("")
   const [isDonating, setIsDonating] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const { t } = useLanguage()
 
   const loadRankings = async () => {
     setIsLoading(true)
@@ -99,18 +101,18 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-md max-h-[80vh] overflow-hidden">
           <DialogHeader>
-            <DialogTitle className="text-center text-xl font-bold">Rankings de Usuarios</DialogTitle>
+            <DialogTitle className="text-center text-xl font-bold">{t("user_rankings")}</DialogTitle>
           </DialogHeader>
 
           <Tabs defaultValue="habits" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="habits" className="flex items-center gap-2">
                 <TrendingUp className="h-4 w-4" />
-                Más Días Cumpliendo
+                {t("most_consecutive_days")}
               </TabsTrigger>
               <TabsTrigger value="donations" className="flex items-center gap-2">
                 <img src="/eth-logo.png" alt="ETH" className="w-4 h-4" />
-                Más Donaciones
+                {t("most_eth_donations")}
               </TabsTrigger>
             </TabsList>
 
@@ -137,7 +139,7 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
                           </div>
                           <div className="text-right">
                             <p className="text-lg font-bold text-[#01D9AA]">{user.streak}</p>
-                            <p className="text-xs text-white">días</p>
+                            <p className="text-xs text-white">{t("days")}</p>
                           </div>
                           {user.address !== currentUserAddress && (
                             <Button
@@ -147,7 +149,7 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
                               className="ml-2 flex items-center gap-1"
                             >
                               <img src="/eth-logo.png" alt="ETH" className="w-3 h-3" />
-                              <span className="text-xs">Donar</span>
+                              <span className="text-xs">{t("donate")}</span>
                             </Button>
                           )}
                         </div>
@@ -181,7 +183,7 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
                             <p className="text-lg font-bold" style={{ color: "#63d6ad" }}>
                               {user.donations.toFixed(4)} ETH
                             </p>
-                            <p className="text-xs text-white">recibido</p>
+                            <p className="text-xs text-white">{t("received")}</p>
                           </div>
                           {user.address !== currentUserAddress && (
                             <Button
@@ -191,7 +193,7 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
                               className="ml-2 flex items-center gap-1"
                             >
                               <img src="/eth-logo.png" alt="ETH" className="w-3 h-3" />
-                              <span className="text-xs">Donar</span>
+                              <span className="text-xs">{t("donate")}</span>
                             </Button>
                           )}
                         </div>
@@ -210,7 +212,9 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
           <Dialog open={!!selectedUser} onOpenChange={() => setSelectedUser(null)}>
             <DialogContent className="max-w-sm">
               <DialogHeader>
-                <DialogTitle className="text-center">Donar a {selectedUser.nickname}</DialogTitle>
+                <DialogTitle className="text-center">
+                  {t("donate_to")} {selectedUser.nickname}
+                </DialogTitle>
               </DialogHeader>
 
               <div className="space-y-4">
@@ -222,7 +226,7 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Cantidad en ETH</label>
+                  <label className="text-sm font-medium mb-2 block">{t("amount_in_eth")}</label>
                   <Input
                     type="number"
                     step="0.001"
@@ -234,7 +238,7 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
 
                 <div className="flex gap-2">
                   <Button variant="outline" onClick={() => setSelectedUser(null)} className="flex-1">
-                    Cancelar
+                    {t("cancel")}
                   </Button>
                   <Button
                     onClick={handleDonate}
@@ -246,7 +250,7 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
                     ) : (
                       <>
                         <Send className="h-4 w-4 mr-2" />
-                        Donar
+                        {t("donate")}
                       </>
                     )}
                   </Button>
@@ -260,8 +264,8 @@ export function RankingsModal({ isOpen, onClose, currentUserAddress }: RankingsM
       <SuccessModal
         isOpen={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
-        title="¡Donación Exitosa!"
-        message="Tu donación ha sido enviada correctamente"
+        title={t("donation_successful")}
+        message={t("your_donation_has_been_sent_successfully")}
         emoji="🤝"
       />
     </>

@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Send, Wallet } from "lucide-react"
 import { donate } from "@/lib/brujulaClient"
 import { SuccessModal } from "./success-modal"
+import { useLanguage } from "@/hooks/use-language"
 
 interface ManualDonationModalProps {
   isOpen: boolean
@@ -20,13 +21,14 @@ export function ManualDonationModal({ isOpen, onClose, currentUserAddress }: Man
   const [amount, setAmount] = useState("0.001")
   const [isLoading, setIsLoading] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const { t } = useLanguage()
 
   const handleDonate = async () => {
     if (!recipientAddress.trim() || !amount || Number.parseFloat(amount) <= 0) return
 
     // Validate Ethereum address format
     if (!/^0x[a-fA-F0-9]{40}$/.test(recipientAddress.trim())) {
-      alert("Por favor ingresa una dirección de wallet válida")
+      alert(t("enterWalletAddress"))
       return
     }
 
@@ -42,7 +44,7 @@ export function ManualDonationModal({ isOpen, onClose, currentUserAddress }: Man
       onClose()
     } catch (error) {
       console.error("Error in manual donation:", error)
-      alert("Error al enviar la donación. Verifica tu wallet y conexión.")
+      alert(t("error"))
     } finally {
       setIsLoading(false)
     }
@@ -60,14 +62,14 @@ export function ManualDonationModal({ isOpen, onClose, currentUserAddress }: Man
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Wallet className="h-5 w-5 text-[#01D9AA]" />
-              Donar a Wallet Específica
+              {t.donateToSpecificWallet}
             </DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4">
             <div>
               <Label htmlFor="recipient" className="text-sm font-medium">
-                Dirección del destinatario
+                {t("walletAddress")}
               </Label>
               <Input
                 id="recipient"
@@ -77,12 +79,12 @@ export function ManualDonationModal({ isOpen, onClose, currentUserAddress }: Man
                 onChange={(e) => setRecipientAddress(e.target.value)}
                 className="mt-1"
               />
-              <p className="text-xs text-muted-foreground mt-1">Ingresa la dirección completa de la wallet</p>
+              <p className="text-xs text-muted-foreground mt-1">{t("enterWalletAddress")}</p>
             </div>
 
             <div>
               <Label htmlFor="amount" className="text-sm font-medium">
-                Cantidad en ETH
+                {t("amount_in_eth")}
               </Label>
               <Input
                 id="amount"
@@ -97,14 +99,14 @@ export function ManualDonationModal({ isOpen, onClose, currentUserAddress }: Man
 
             {recipientAddress.trim() && (
               <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="text-sm text-muted-foreground">Donando a:</p>
+                <p className="text-sm text-muted-foreground">{t("donate_to")}:</p>
                 <p className="font-mono text-sm">{formatAddress(recipientAddress.trim())}</p>
               </div>
             )}
 
             <div className="flex gap-2 pt-4">
               <Button onClick={onClose} variant="outline" className="flex-1 bg-transparent" disabled={isLoading}>
-                Cancelar
+                {t("cancel")}
               </Button>
               <Button
                 onClick={handleDonate}
@@ -116,7 +118,7 @@ export function ManualDonationModal({ isOpen, onClose, currentUserAddress }: Man
                 ) : (
                   <Send className="h-4 w-4 mr-2" />
                 )}
-                {isLoading ? "Enviando..." : "Donar"}
+                {isLoading ? t("loading") : t("donate")}
               </Button>
             </div>
           </div>
@@ -126,8 +128,8 @@ export function ManualDonationModal({ isOpen, onClose, currentUserAddress }: Man
       <SuccessModal
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
-        title="¡Donación Exitosa!"
-        message="Tu donación ha sido enviada correctamente"
+        title={t("donation_successful")}
+        message={t("your_donation_has_been_sent_successfully")}
       />
     </>
   )

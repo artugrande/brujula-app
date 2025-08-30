@@ -44,6 +44,10 @@ export const translations = {
     moreDaysCompleting: "Más Días Cumpliendo",
     moreDonations: "Más Donaciones",
     donate: "Donar",
+    user_rankings: "Rankings de Usuarios",
+    most_consecutive_days: "Más Días Cumpliendo",
+    most_eth_donations: "ETH Más Donaciones",
+    received: "recibido",
 
     // Donations
     donateToUser: "Donar a",
@@ -52,6 +56,10 @@ export const translations = {
     donationSent: "Tu donación ha sido enviada correctamente",
     enterWalletAddress: "Ingresa la dirección de wallet",
     walletAddress: "Dirección de Wallet",
+    donate_to: "Donar a",
+    amount_in_eth: "Cantidad en ETH",
+    donation_successful: "¡Donación Exitosa!",
+    your_donation_has_been_sent_successfully: "Tu donación ha sido enviada correctamente",
 
     // Wallet
     walletCopied: "¡Wallet copiada al portapapeles!",
@@ -111,6 +119,10 @@ export const translations = {
     moreDaysCompleting: "More Days Completing",
     moreDonations: "More Donations",
     donate: "Donate",
+    user_rankings: "User Rankings",
+    most_consecutive_days: "Most Consecutive Days",
+    most_eth_donations: "Most ETH Donations",
+    received: "received",
 
     // Donations
     donateToUser: "Donate to",
@@ -119,6 +131,10 @@ export const translations = {
     donationSent: "Your donation has been sent successfully",
     enterWalletAddress: "Enter wallet address",
     walletAddress: "Wallet Address",
+    donate_to: "Donate to",
+    amount_in_eth: "Amount in ETH",
+    donation_successful: "Donation Successful!",
+    your_donation_has_been_sent_successfully: "Your donation has been sent successfully",
 
     // Wallet
     walletCopied: "Wallet copied to clipboard!",
